@@ -1,4 +1,4 @@
-# DevOps Fundamentals and CI/CD Pipeline Implementation: A Comprehensive Guide
+# DevOps Fundamentals and Basic CI/CD Pipeline Implementation: A Comprehensive Guide
 
 Modern software development requires seamless integration between development and operations teams to deliver high-quality applications efficiently. This guide explores DevOps principles and demonstrates practical CI/CD pipeline implementation using industry-standard tools.
 
