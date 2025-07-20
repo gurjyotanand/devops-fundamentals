@@ -10,4 +10,4 @@ def hello():
 
 if __name__ == '__main__':
     # Run the app on 0.0.0.0 to be publicly accessible from within the container
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=2867)
