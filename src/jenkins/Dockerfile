@@ -35,17 +35,3 @@ RUN groupadd -f docker && usermod -aG docker jenkins
 
 # Switch back to jenkins user
 USER jenkins
-
-# Install recommended plugins
-
-# RUN jenkins-plugin-cli --plugins \
-#     blueocean \
-#     docker-workflow \
-#     kubernetes \
-#     git \
-#     workflow-aggregator \
-#     pipeline-stage-view \
-#     build-timeout \
-#     credentials-binding \
-#     timestamper \
-#     ws-cleanup
