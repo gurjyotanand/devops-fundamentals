@@ -1,0 +1,26 @@
+services:
+  jenkins:
+    build: .
+    container_name: jenkins
+    restart: unless-stopped
+    user: root  # Run as root to avoid permission issues
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.kube:/var/jenkins_home/.kube:ro
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - JENKINS_USER=jenkins
+    networks:
+      - jenkins-network
+
+volumes:
+  jenkins_home:
+    name: main_jenkins_home
+
+networks:
+  jenkins-network:
+    driver: bridge
