@@ -129,14 +129,14 @@ cd ~/devops-simple-ci-cd-pipeline
 # Initialize git repo
 git init
 
-# Create subdirectories for different components
-mkdir -p {jenkins,k8s-manifests,helm-charts,monitoring,apps}
+# Create src/ folder
+mkdir src
 
-# Create initial directory structure
-tree . # or use ls -la if tree is not installed
+# Change directory to source folder
+cd src
 ```
 
-**Step 4: Create app.py (Python file)**
+**Step 4: Create app.py (Python file) in src/ directory**
 
 ```bash
 cat > app.py << 'EOF'
@@ -164,6 +164,7 @@ EOF
 First, let's create a custom Jenkins Docker setup:
 
 ```bash
+mkdir jenkins
 cd ~/jenkins
 
 # Create Jenkins Dockerfile for custom setup

@@ -6,7 +6,7 @@ One you have completed the steps in the README.md file and jenkins container is 
 
 ![Jenkins Initial Setup Screen](images/part1-b-1.png)
 
-Input this password into the Jenkins setup interface to proceed with configuration.
+Input the admin password into the Jenkins setup interface to proceed with configuration.
 
 ![CLI](images/part1-b-2.png)
 

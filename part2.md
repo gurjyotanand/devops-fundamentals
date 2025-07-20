@@ -46,14 +46,32 @@ Navigate to `hub.docker.com` and establish your registry presence:
 
 ### Container Definition with Dockerfile
 
-Your application requires a standardized container specification. Create a `Dockerfile` in your repository root with optimized configuration:
+Your application requires a standardized container specification. Create a `Dockerfile` in your src/ directory with optimized configuration:
 
 ```dockerfile
-FROM python:3.13-slim
+# Use an official lightweight Python image.
+FROM python:3.9-slim
+
+# Set the working directory in the container
 WORKDIR /app
-COPY . .
-RUN pip install -r requirements.txt
-CMD ["python", "app.py"]
+
+# Copy the dependencies file to the working directory
+COPY requirements.txt .
+
+# Install any dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the content of the local src directory to the working directory
+COPY app.py .
+
+# Specify the command to run on container startup
+CMD [ "python", "app.py" ]
+```
+
+Also create `requirements.txt` in the same src/ directory with requirements:
+```requirements
+Flask==2.3.3
+Werkzeug==2.3.7
 ```
 
 **Essential Repository Files**:
@@ -95,10 +113,10 @@ Add the following shell execution steps to your Jenkins job configuration:
 
 echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin # Authenticate with Docker Hub registry
 cd src/ #Change directory to src folder [We can also configure this in pipeline configuration]
-docker build -t gurjyotanand/myapp:$BUILD_NUMBER . # Build container image with build-specific tagging
-docker tag gurjyotanand/myapp:$BUILD_NUMBER gurjyotanand/myapp:latest # Tagging the image latest
-docker push gurjyotanand/myapp:$BUILD_NUMBER # Publish image to Docker Hub registry
-docker push gurjyotanand/myapp:latest
+docker build -t $DOCKERHUB_USER/myapp:$BUILD_NUMBER . # Build container image with build-specific tagging
+docker tag $DOCKERHUB_USER/myapp:$BUILD_NUMBER gurjyotanand/myapp:latest # Tagging the image latest
+docker push $DOCKERHUB_USER/myapp:$BUILD_NUMBER # Publish image to Docker Hub registry
+docker push $DOCKERHUB_USER/myapp:latest
 ```
 
 ### Environment Variable Configuration
@@ -123,7 +141,7 @@ Your enhanced pipeline triggers automatically upon code commits, executing the c
 
 **Validation Command**:
 ```bash
-docker pull username/myapp:5
+docker pull gurjyotanand/myapp:latest
 ```
 
 This command confirms successful registry publication and enables deployment across any Docker-compatible environment.
@@ -148,37 +166,13 @@ Install the **Pipeline View Plugin** for comprehensive job monitoring. This plug
 - **Build Stage**: Container creation progress  
 - **Push Stage**: Registry publication confirmation
 
-## Kubernetes Deployment with k3s and Helm
+## Kubernetes Deployment with OrbStack and Helm
 
 Container registry integration enables sophisticated Kubernetes deployment workflows. This section demonstrates production-grade application deployment using lightweight Kubernetes distribution and industry-standard package management.
 
-### Lightweight Kubernetes Installation
-
-**k3s** provides enterprise Kubernetes functionality with minimal resource requirements, perfect for development and production environments:
-
-```bash
-curl -sfL https://get.k3s.io | sh -
-```
-
-**Cluster Validation**:
-```bash
-kubectl get nodes
-```
-
-This command confirms your single-node cluster operates in Ready status, prepared for application deployments.
-
-**[Image Placeholder]**: *Suggest: Terminal screenshot showing kubectl get nodes command output with a single node in Ready status*
-
-### Helm Package Manager Setup
-
-Helm streamlines Kubernetes application management through templated deployments and configuration management:
-
-```bash
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-```
-
 **Installation Verification**:
 ```bash
+kubectl get nodes
 helm version
 ```
 
@@ -188,7 +182,7 @@ Helm charts provide standardized application packaging for Kubernetes environmen
 
 ### Chart Generation and Configuration
 
-Create your application's Helm chart foundation:
+Create your application's Helm chart foundation in the src folder:
 
 ```bash
 helm create myapp
@@ -200,7 +194,7 @@ Edit the `values.yaml` file to specify your container registry integration:
 
 ```yaml
 image:
-  repository: username/myapp
+  repository: gurjyot/myapp
   tag: "latest"
   pullPolicy: Always
 
@@ -210,6 +204,16 @@ service:
 ```
 
 **Critical Configuration**: Ensure your `deployment.yaml` specifies the correct `containerPort` matching your application's listening port (commonly 3000, 5000, or 8080).
+
+```yaml
+# my-python-chart/templates/deployment.yaml (snippet)
+...
+          ports:
+            - name: http
+              containerPort: 2867  # <-- CHANGE THIS 
+              protocol: TCP
+...
+```
 
 ### Production Deployment
 
@@ -238,7 +242,7 @@ Connect your Jenkins Docker pipeline with Kubernetes deployment automation. This
 When Jenkins publishes new container images, update your Kubernetes deployment:
 
 ```bash
-helm upgrade myapp ./myapp --set image.tag=build-42
+helm upgrade myapp ./myapp --set image.tag=41
 ```
 
 **Dynamic Integration**: Use Jenkins `$BUILD_NUMBER` environment variable for automatic tag management in deployment scripts.
@@ -284,5 +288,3 @@ This comprehensive implementation establishes production-grade CI/CD pipelines i
 Your DevOps pipeline now mirrors enterprise implementations used by leading technology companies, providing hands-on experience with industry-standard tools and methodologies.
 
 The next evolution involves comprehensive monitoring implementation, GitOps workflow integration, and advanced security configurations for production-ready deployments. These foundational skills prepare you for senior DevOps engineering roles and complex infrastructure management responsibilities.
-
-[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/76822797/bd63c334-6209-4e32-87b7-96e0af88344e/input-2.pdf
