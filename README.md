@@ -126,6 +126,9 @@ kubectl get nodes
 mkdir ~/devops-simple-ci-cd-pipeline
 cd ~/devops-simple-ci-cd-pipeline
 
+# Initialize git repo
+git init
+
 # Create subdirectories for different components
 mkdir -p {jenkins,k8s-manifests,helm-charts,monitoring,apps}
 
@@ -133,16 +136,35 @@ mkdir -p {jenkins,k8s-manifests,helm-charts,monitoring,apps}
 tree . # or use ls -la if tree is not installed
 ```
 
+**Step 4: Create app.py (Python file)**
+
+```bash
+cat > app.py << 'EOF'
+from flask import Flask
+
+# Create a Flask web server
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    """Return a friendly HTTP greeting."""
+    return 'Hello, World from Kubernetes and Helm!\n'
+
+if __name__ == '__main__':
+    # Run the app on 0.0.0.0 to be publicly accessible from within the container
+    app.run(host='0.0.0.0', port=2867)
+EOF
+```
 ---
 
-## Jenkins, Docker, Kubernetes, Helm Setup
+## Jenkins Setup
 
 **Step 1: Deploy Jenkins using Docker**
 
 First, let's create a custom Jenkins Docker setup:
 
 ```bash
-cd ~/devops-simple-ci-cd-pipelinejenkins
+cd ~/jenkins
 
 # Create Jenkins Dockerfile for custom setup
 cat > Dockerfile << 'EOF'
@@ -187,7 +209,7 @@ USER jenkins
 EOF
 
 # Build custom Jenkins image
-docker build -t custom-jenkins:latest .
+docker build -t myapp:latest .
 ```
 
 **Step 2: Create Jenkins Docker Compose**
@@ -230,3 +252,5 @@ EOF
 docker-compose up -d
 docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword 
 ```
+
+Note: After this push your files to your github repository. 
