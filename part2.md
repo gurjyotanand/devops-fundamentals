@@ -92,14 +92,13 @@ Transform your existing Jenkins freestyle project into a comprehensive Docker au
 Add the following shell execution steps to your Jenkins job configuration:
 
 ```bash
-# Authenticate with Docker Hub registry
-echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
 
-# Build container image with build-specific tagging
-docker build -t username/myapp:$BUILD_NUMBER .
-
-# Publish image to Docker Hub registry
-docker push username/myapp:$BUILD_NUMBER
+echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin # Authenticate with Docker Hub registry
+cd src/ #Change directory to src folder [We can also configure this in pipeline configuration]
+docker build -t gurjyotanand/myapp:$BUILD_NUMBER . # Build container image with build-specific tagging
+docker tag gurjyotanand/myapp:$BUILD_NUMBER gurjyotanand/myapp:latest # Tagging the image latest
+docker push gurjyotanand/myapp:$BUILD_NUMBER # Publish image to Docker Hub registry
+docker push gurjyotanand/myapp:latest
 ```
 
 ### Environment Variable Configuration
