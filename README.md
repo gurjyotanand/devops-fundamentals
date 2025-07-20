@@ -132,11 +132,11 @@ git init
 # Create src/ folder
 mkdir src
 
-# Change directory to source folder
+# Change directory to src/ folder
 cd src
 ```
 
-**Step 4: Create app.py (Python file) in src/ directory**
+**Step 4: Create app.py in src/ Directory**
 
 ```bash
 cat > app.py << 'EOF'
@@ -157,7 +157,7 @@ EOF
 ```
 ---
 
-## Jenkins Setup
+## Custom Jenkins Setup
 
 **Step 1: Deploy Jenkins using Docker**
 
@@ -210,7 +210,7 @@ USER jenkins
 EOF
 
 # Build custom Jenkins image
-docker build -t myapp:latest .
+docker build -t custom-jenkins:latest .
 ```
 
 **Step 2: Create Jenkins Docker Compose**

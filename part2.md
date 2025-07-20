@@ -115,7 +115,7 @@ Add the following shell execution steps to your Jenkins job configuration:
 echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin # Authenticate with Docker Hub registry
 cd src/ #Change directory to src folder [We can also configure this in pipeline configuration]
 docker build -t $DOCKERHUB_USER/myapp:$BUILD_NUMBER . # Build container image with build-specific tagging
-docker tag $DOCKERHUB_USER/myapp:$BUILD_NUMBER gurjyotanand/myapp:latest # Tagging the image latest
+docker tag $DOCKERHUB_USER/myapp:$BUILD_NUMBER $DOCKERHUB_USER/myapp:latest # Tagging the image latest
 docker push $DOCKERHUB_USER/myapp:$BUILD_NUMBER # Publish image to Docker Hub registry
 docker push $DOCKERHUB_USER/myapp:latest
 ```
@@ -142,7 +142,7 @@ Your enhanced pipeline triggers automatically upon code commits, executing the c
 
 **Validation Command**:
 ```bash
-docker pull gurjyotanand/myapp:latest
+docker pull your-dockerhub-username/myapp:latest
 ```
 
 This command confirms successful registry publication and enables deployment across any Docker-compatible environment.
