@@ -38,11 +38,11 @@ service:
 **Critical Configuration**: Ensure your `deployment.yaml` specifies the correct `containerPort` matching your application's listening port (commonly 3000, 5000, or 8080).
 
 ```yaml
-# my-python-chart/templates/deployment.yaml (snippet)
+# /src/myapp/templates/deployment.yaml (snippet)
 ...
           ports:
             - name: http
-              containerPort: 2867  # <-- CHANGE THIS 
+              containerPort: 2867 
               protocol: TCP
 ...
 ```

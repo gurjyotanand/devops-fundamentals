@@ -49,6 +49,7 @@ Navigate to `hub.docker.com` and establish your registry presence:
 Your application requires a standardized container specification. Create a `Dockerfile` in your src/ directory with optimized configuration:
 
 ```dockerfile
+# /src/Dockerfile (snippet)
 # Use an official lightweight Python image.
 FROM python:3.9-slim
 
