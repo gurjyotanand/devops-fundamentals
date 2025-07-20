@@ -120,7 +120,7 @@ docker-compose up -d
 
 Access the Jenkins interface at `http://localhost:8080` once the container is operational.
 
-**[Image Placeholder]**: *Suggest: Jenkins initial setup screen showing the unlock Jenkins page with password input field*
+![Jenkins Initial Setup Screen](images/part1-b-1.png)
 
 ### Authentication Setup
 
@@ -131,6 +131,8 @@ docker exec -it jenkins-ci cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 Input this password into the Jenkins setup interface to proceed with configuration.
+
+![CLI](images/part1-b-2.png)
 
 ### Plugin Installation
 
@@ -151,6 +153,11 @@ Create a new Freestyle project with the following specifications:
 3. Select "Freestyle project" template
 4. Configure Source Code Management with Git
 5. Specify your GitHub repository URL
+6. Change branch to `*/main`
+
+![Jenkins Pipeline Setup-1](images/part1-b-3.png)
+
+![Jenkins Pipeline Setup-2](images/part1-b-4.png)
 
 ### Build Step Configuration
 
@@ -174,6 +181,8 @@ For automated build triggers, configure GitHub webhooks:
 ### Pipeline Testing
 
 Validate the implementation by pushing code to your GitHub repository. Jenkins should automatically detect the change and execute the build process.
+
+![Successful Pipeline Run](images/part1-b-5.png)
 
 ## Troubleshooting Common Issues
 
