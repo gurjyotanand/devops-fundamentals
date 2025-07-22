@@ -25,7 +25,7 @@ Here's how the pieces fit together:
 
 | Component | Primary Function |
 |-----------|-----------------|
-| **k3s** | Your lightweight Kubernetes cluster foundation |
+| **k8s** | Your lightweight Kubernetes cluster foundation |
 | **Helm** | Package manager that simplifies installation |
 | **Prometheus** | The data collector that scrapes metrics continuously |
 | **Grafana** | The visualization engine that turns data into insights |
